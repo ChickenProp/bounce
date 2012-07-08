@@ -104,6 +104,7 @@ public class Player extends Movable {
 
 	public function fling () : void {
 		fling2(dragLen(), dragDir());
+		(world as Game).playerFlung();
 	}
 
 	public function fling2 (len:Number, dir:vec) : void {

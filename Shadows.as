@@ -1,10 +1,12 @@
 package {
 import net.flashpunk.*;
 import net.flashpunk.graphics.*;
+import net.flashpunk.utils.*;
 
 public class Shadows extends Player {
 	public var player : Player;
 	public var gl:Graphiclist;
+	public var positions:Vector.<vec>;
 	public function Shadows () {
 		gl = new Graphiclist;
 		graphic = gl;
@@ -24,6 +26,7 @@ public class Shadows extends Player {
 	}
 
 	public function display () : void {
+		positions = new Vector.<vec>();
 		fling2(player.dragLen(), player.dragDir());
 
 		var i:int = 0;
@@ -40,17 +43,17 @@ public class Shadows extends Player {
 		moving = false; // don't update shinies like in parent.
 	}
 
-	override public function doMotion () : void {
-		FP.console.log(pos + ', ' + vel);
-		super.doMotion();
+	public function addShadow(_x:Number, _y:Number) : void {
+		positions.push(new vec(x, y));
 	}
 
-	public function addShadow(_x:Number, _y:Number) : void {
-		var i:Image = Image.createCircle(1, 0xFF0000);
-		i.centerOrigin();
-		i.x = _x;
-		i.y = _y;
-		gl.add(i);
+	public function hide () : void {
+		positions = new Vector.<vec>();
+	}
+
+	override public function render () : void {
+		for each (var v:vec in positions)
+			Draw.rect(v.x, v.y, 1, 1, 0xFF0000);
 	}
 
 	override public function set scoremult (m:int) : void {}

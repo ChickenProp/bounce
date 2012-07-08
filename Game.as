@@ -11,6 +11,7 @@ public class Game extends World {
 	
 	public static var dataFile:String = "philh-bounce-data";
 	public var player:Player;
+	public var shadows:Shadows;
 	public var background:Entity;
 	public var frame:int = 0;
 	public var targetShinyCount : int = 1;
@@ -33,7 +34,8 @@ public class Game extends World {
 		
 		player = new Player;
 		add(player);
-		add(new Shadows);
+		shadows = new Shadows;
+		add(shadows);
 
 		add(new Shiny(100, 100));
 
@@ -54,6 +56,10 @@ public class Game extends World {
 		if (timeTween.value == 0)
 			FP.world = new GameOver();
 		timer.graphic = Image.createRect(20, timeTween.value||1, 0xFF0000);
+	}
+
+	public function playerFlung () : void {
+		shadows.hide();
 	}
 
 	public function updateShinies () : void {
