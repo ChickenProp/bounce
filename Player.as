@@ -75,6 +75,7 @@ public class Player extends Movable {
 		maybeBounce('y', 40, 440);
 
 		var flingtaper:Number = - flingspeed*30 + motionCount - flingtime;
+
 		if (moving && flingtaper > 0) {
 			var ns2:Number = Math.max(flingspeed * flingspeed - (flingtaper * flingtaper)/100, 0);
 			vel = vel.normalize(Math.sqrt(ns2));
@@ -83,7 +84,12 @@ public class Player extends Movable {
 				stoppedMoving();
 		}
 
-		move();
+		// Calling move() here doesn't work due to how Entity.moveBy()
+		// does bookkeeping. (The shadow copies the player's x and y,
+		// but not the bookkeeping information, and that causes
+		// noticeable jiggling in the shadow's motion.)
+		x += vel.x;
+		y += vel.y;
 	}
 
 	public function dragLen () : Number {

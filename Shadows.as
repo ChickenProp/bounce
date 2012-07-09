@@ -14,7 +14,6 @@ public class Shadows extends Player {
 	}
 
 	override public function update () : void {
-		FP.console.log("shadows update");
 		player = game.player;
 		gl.removeAll();
 
