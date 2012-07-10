@@ -18,6 +18,7 @@ public class Game extends World {
 	public var timeTween : NumTween;
 	public var timer : Entity;
 	public var cameraVel : vec = new vec(0, 0);
+	public var gameOver : Boolean = false;
 
 	public function Game () {
 		background = new Entity;
@@ -40,9 +41,7 @@ public class Game extends World {
 
 		add(new Shiny(100, 100));
 
-		timeTween = new NumTween(function () : void {
-		                FP.world = new GameOver()
-		        });
+		timeTween = new NumTween();
 		timeTween.tween(400, 0, 60*60);
 
 		music.play(1);
@@ -63,8 +62,10 @@ public class Game extends World {
 		frame++;
 		timeTween.update();
 		if (timeTween.value == 0)
-			FP.world = new GameOver();
-		timer.graphic = Image.createRect(20, timeTween.value||1, 0xFF0000);
+			gameOver = true;
+		timer.graphic = timeTween.value
+			? Image.createRect(20, timeTween.value||1, 0xFF0000)
+			: null;
 	}
 
 	public function playerFlung () : void {

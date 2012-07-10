@@ -49,6 +49,9 @@ public class Player extends Movable {
 		doCollisions();
 
 		doSound();
+
+		if (!moving && (world as Game).gameOver)
+			FP.world = new GameOver;
 	}
 
 	public function maybeBounceDir (e:String,
