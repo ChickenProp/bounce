@@ -3,8 +3,12 @@ import net.flashpunk.*;
 import net.flashpunk.graphics.*;
 import net.flashpunk.utils.*;
 import net.flashpunk.tweens.misc.*;
+import flash.utils.getTimer;
 
 public class Player extends Movable {
+[ Embed(source='media/stretch.mp3') ] public static const STRETCH:Class;
+	public var stretch : Sfx = new Sfx(STRETCH);
+	public var stretchStopTime : uint = 0;
 	public var dragStart : vec;
 	public var realPos : vec;
 	public var dragging : Boolean = false;
@@ -41,6 +45,8 @@ public class Player extends Movable {
 		doMotion();
 
 		doCollisions();
+
+		doSound();
 	}
 
 	public function maybeBounce (e:String, min:Number, max:Number) : void {
@@ -106,11 +112,15 @@ public class Player extends Movable {
 		realPos = pos;
 		vel.set(0, 0);
 		dragging = true;
+		playStretch();
 	}
 
 	public function fling () : void {
 		fling2(dragLen(), dragDir());
 		(world as Game).playerFlung();
+		stretch.stop();
+		stretch.play(); // These two lines reset to position 0, I think.
+		stretch.stop();
 	}
 
 	public function fling2 (len:Number, dir:vec) : void {
@@ -118,7 +128,7 @@ public class Player extends Movable {
 		flingtime = motionCount;
 		moving = true;
 		dragging = false;
-		
+
 		vel = dir.mul(-flingspeed);
 	}
 
@@ -142,6 +152,25 @@ public class Player extends Movable {
 				s.hit();
 			}
 		}
+	}
+
+	private var lastMousePos : vec = new vec(-1, -1);
+	public function doSound () : void {
+		if (dragging && !mousePos.eq(lastMousePos))
+			playStretch();
+
+		if (stretch.playing && getTimer() > stretchStopTime)
+			stretch.stop();
+
+		FP.log(stretch.playing);
+
+		lastMousePos = mousePos;
+	}
+
+	public function playStretch () : void {
+		if (! stretch.playing)
+			stretch.resume();
+		stretchStopTime = getTimer() + 30;
 	}
 
 	public function get mousePos () : vec {
