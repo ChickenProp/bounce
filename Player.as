@@ -148,7 +148,7 @@ public class Player extends Movable {
 		var shiniesHit:int = 0;
 
 		for each (var s:Shiny in shinies) {
-			if (pos.sub(s.pos).length < radius + 5) {
+			if (pos.sub(s.pos).length < radius + 10) {
 				Score.gain(s.value, s.x, s.y);
 				scoremult++;
 				shiniesHit++;

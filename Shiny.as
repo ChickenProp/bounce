@@ -12,8 +12,13 @@ public class Shiny extends Movable {
 		pos = new vec(x, y);
 		image = new Image(SHINY);
 		image.color = 0x00FF00;
+		image.scale = 20 / image.width;
 		image.centerOrigin();
 		centerOrigin();
+	}
+
+	override public function update () : void {
+		image.angle -= 0.25;
 	}
 
 	public function wasntHit () : void {
