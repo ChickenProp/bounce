@@ -40,10 +40,12 @@ public class Game extends World {
 
 		add(new Shiny(100, 100));
 
-		timeTween = new NumTween(function () : void { FP.console.log("game over"); FP.world = new GameOver() });
+		timeTween = new NumTween(function () : void {
+		                FP.world = new GameOver()
+		        });
 		timeTween.tween(400, 0, 60*60);
 
-		music.loop(1);
+		music.play(1);
 	}
 	
 	override public function update () : void {
