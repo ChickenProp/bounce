@@ -5,14 +5,12 @@ import net.flashpunk.graphics.*;
 
 public class Score extends Entity {
 	public static var multiplier : int = 1;
-	static public var scoreG : Text = new Text("               ");
-        static public var highScoreG : Text = new Text("               ");
+	static public var scoreG : Text = new Text("               ", 60, 10);
+        static public var highScoreG : Text = new Text("               ", 250, 10);
 
         public function Score () {
-                var label1:* = new Text("Score", 0, 0);
-                var label2:* = new Text("High score", 150, 0);
-		scoreG.x = 60;
-                highScoreG.x = 250;
+                var label1:* = new Text("Score", 0, 10);
+                var label2:* = new Text("High score", 150, 10);
                 graphic = new Graphiclist(scoreG, label1, highScoreG, label2);
                 x = 10;
 

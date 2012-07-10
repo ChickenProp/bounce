@@ -17,7 +17,8 @@ public class Game extends World {
 	public var targetShinyCount : int = 1;
 	public var timeTween : NumTween;
 	public var timer : Entity;
-	
+	public var cameraVel : vec = new vec(0, 0);
+
 	public function Game () {
 		background = new Entity;
 		background.graphic = Image.createRect(400, 400, 0x000000);
@@ -51,6 +52,12 @@ public class Game extends World {
 		if (Input.pressed(Key.F5))
 			FP.console.enable();
 
+		cameraVel.x -= FP.camera.x;
+		cameraVel.y -= FP.camera.y;
+		cameraVel.setmul(0.3);
+		FP.camera.x += cameraVel.x;
+		FP.camera.y += cameraVel.y;
+
 		frame++;
 		timeTween.update();
 		if (timeTween.value == 0)
@@ -81,6 +88,10 @@ public class Game extends World {
 
 		for (var i:int = 0; i < targetShinyCount - shinyCount; i++)
 			add(new Shiny(FP.rand(394)+43, FP.rand(394)+43));
+	}
+
+	public function bounceWalls () : void {
+		cameraVel.setadd(player.vel.mul(5));
 	}
 }
 }

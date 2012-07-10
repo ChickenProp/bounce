@@ -51,7 +51,9 @@ public class Player extends Movable {
 		doSound();
 	}
 
-	public function maybeBounce (e:String, min:Number, max:Number) : void {
+	public function maybeBounceDir (e:String,
+	                                min:Number, max:Number) : Boolean
+	{
 		var dir:String = '';
 		
 		if (pos[e] - radius < min) {
@@ -67,20 +69,29 @@ public class Player extends Movable {
 			if (!bouncing[e + dir]) {
 				bouncing[e + dir] = true;
 				scoremult++;
+				return true;
 			}
 		}
 		else {
 			bouncing[e + '+'] = false;
 			bouncing[e + '-'] = false;
 		}
-			
+		return false;
+	}
+
+	public function maybeBounce(xmin:Number, xmax:Number,
+	                            ymin:Number, ymax:Number) : Boolean
+	{
+		var bx:Boolean = maybeBounceDir('x', xmin, xmax);
+		var by:Boolean = maybeBounceDir('y', ymin, ymax);
+
+		return bx || by;
 	}
 
 	public function doMotion () : void {
 		motionCount++;
-		
-		maybeBounce('x', 40, 440);
-		maybeBounce('y', 40, 440);
+
+		maybeBounce(40, 440, 40, 440) && (world as Game).bounceWalls();
 
 		var flingtaper:Number = - flingspeed*30 + motionCount - flingtime;
 
