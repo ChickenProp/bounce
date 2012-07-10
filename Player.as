@@ -8,6 +8,8 @@ import flash.utils.getTimer;
 public class Player extends Movable {
 [ Embed(source='media/stretch.mp3') ] public static const STRETCH:Class;
 	public var stretch : Sfx = new Sfx(STRETCH);
+[ Embed(source='media/twang.mp3') ] public static const TWANG:Class;
+	public var twang : Sfx = new Sfx(TWANG);
 	public var stretchStopTime : uint = 0;
 	public var dragStart : vec;
 	public var realPos : vec;
@@ -121,6 +123,7 @@ public class Player extends Movable {
 		stretch.stop();
 		stretch.play(); // These two lines reset to position 0, I think.
 		stretch.stop();
+		twang.play();
 	}
 
 	public function fling2 (len:Number, dir:vec) : void {
