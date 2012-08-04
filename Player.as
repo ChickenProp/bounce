@@ -45,7 +45,7 @@ public class Player extends Movable {
 
 		if (dragging) {
 			pos = realPos.add(dragVec());
-			image.scaleY = dragLen();
+			image.scaleY = Math.max(dragLen(), 1);
 			image.angle = -dragDir().angleD - 90;
 		}
 
@@ -123,6 +123,7 @@ public class Player extends Movable {
 	public function bounceEffects () : void {
 		(world as Game).bounceWalls();
 		bounce.play();
+		image.angle = -vel.angleD + 90;
 	}
 
 	public function dragLen () : Number {
