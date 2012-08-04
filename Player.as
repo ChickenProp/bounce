@@ -26,6 +26,7 @@ public class Player extends Movable {
 	
 	public function Player () {
 		image = new Image(PLAYER);
+		image.scale = 0.2;
 		x = 240;
 		y = 240;
 		centerOrigin();
@@ -195,8 +196,6 @@ public class Player extends Movable {
 
 		if (stretch.playing && getTimer() > stretchStopTime)
 			stretch.stop();
-
-		FP.log(stretch.playing);
 
 		lastMousePos = mousePos;
 	}
