@@ -48,10 +48,10 @@ public class Player extends Movable {
 			image.scaleY = Math.max(dragLen(), 1);
 			image.angle = -dragDir().angleD - 90;
 		}
-
-		doMotion();
-
-		doCollisions();
+		else {
+			doMotion();
+			doCollisions();
+		}
 
 		doSound();
 
