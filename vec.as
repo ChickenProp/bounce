@@ -18,6 +18,13 @@ public class vec {
 		return Math.sqrt(x*x + y*y);
 	}
 
+	public function get angle () : Number {
+		return Math.atan2(y, x);
+	}
+	public function get angleD () : Number {
+		return 180 * Math.atan2(y, x) / Math.PI;
+	}
+
 	public function eq (v:vec) : Boolean {
 		return x == v.x && y == v.y;
 	}

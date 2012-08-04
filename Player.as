@@ -10,6 +10,7 @@ public class Player extends Movable {
 	public var stretch : Sfx = new Sfx(STRETCH);
 [ Embed(source='media/twang.mp3') ] public static const TWANG:Class;
 	public var twang : Sfx = new Sfx(TWANG);
+[ Embed(source='media/player.png') ] public static const PLAYER:Class;
 	public var stretchStopTime : uint = 0;
 	public var dragStart : vec;
 	public var realPos : vec;
@@ -22,7 +23,7 @@ public class Player extends Movable {
 	public var bouncing : Object = new Object();
 	
 	public function Player () {
-		image = Image.createCircle(radius, 0xFFFFFF);
+		image = new Image(PLAYER);
 		x = 240;
 		y = 240;
 		centerOrigin();
@@ -41,7 +42,9 @@ public class Player extends Movable {
 			fling();
 
 		if (dragging) {
-			pos = realPos.add(dragDir().mul(dragLen()));
+			pos = realPos.add(dragVec());
+			image.scaleY = dragLen();
+			image.angle = -dragDir().angleD - 90;
 		}
 
 		doMotion();
@@ -123,6 +126,10 @@ public class Player extends Movable {
 		return mousePos.sub(dragStart).normalize();
 	}
 
+	public function dragVec () : vec {
+		return dragDir().mul(dragLen());
+	}
+
 	public function startDrag () : void {
 		dragStart = new vec(Input.mouseX, Input.mouseY);
 		realPos = pos;
@@ -138,6 +145,7 @@ public class Player extends Movable {
 		stretch.play(); // These two lines reset to position 0, I think.
 		stretch.stop();
 		twang.play();
+		FP.tween(image, {scaleY: 1}, 0.1);
 	}
 
 	public function fling2 (len:Number, dir:vec) : void {
