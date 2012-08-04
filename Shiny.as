@@ -4,6 +4,8 @@ import net.flashpunk.graphics.*;
 
 public class Shiny extends Movable {
 [ Embed(source='media/shiny.png') ] public static const SHINY:Class;
+[ Embed(source='media/pickup.mp3') ] public static const PICKUP:Class;
+	public var pickup:Sfx = new Sfx(PICKUP);
 	public var value:int = 10;
 	public var alive:Boolean = true;
 	public var diedPeacefully:Boolean = false;
@@ -43,6 +45,7 @@ public class Shiny extends Movable {
 		alive = false;
 		diedPeacefully = false;
 		world.remove(this);
+		pickup.play();
 	}
 }
 }

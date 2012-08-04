@@ -42,6 +42,8 @@ public class Shadows extends Player {
 		moving = false; // don't update shinies like in parent.
 	}
 
+	override public function bounceEffects () : void {}
+
 	public function addShadow(_x:Number, _y:Number) : void {
 		positions.push(new vec(x, y));
 	}

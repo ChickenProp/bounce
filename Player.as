@@ -10,6 +10,8 @@ public class Player extends Movable {
 	public var stretch : Sfx = new Sfx(STRETCH);
 [ Embed(source='media/twang.mp3') ] public static const TWANG:Class;
 	public var twang : Sfx = new Sfx(TWANG);
+[ Embed(source='media/bounce.mp3') ] public static const BOUNCE:Class;
+	public var bounce : Sfx = new Sfx(BOUNCE);
 [ Embed(source='media/player.png') ] public static const PLAYER:Class;
 	public var stretchStopTime : uint = 0;
 	public var dragStart : vec;
@@ -97,7 +99,8 @@ public class Player extends Movable {
 	public function doMotion () : void {
 		motionCount++;
 
-		maybeBounce(40, 440, 40, 440) && (world as Game).bounceWalls();
+		if (maybeBounce(40, 440, 40, 440))
+			bounceEffects();
 
 		var flingtaper:Number = - flingspeed*30 + motionCount - flingtime;
 
@@ -115,6 +118,11 @@ public class Player extends Movable {
 		// noticeable jiggling in the shadow's motion.)
 		x += vel.x;
 		y += vel.y;
+	}
+
+	public function bounceEffects () : void {
+		(world as Game).bounceWalls();
+		bounce.play();
 	}
 
 	public function dragLen () : Number {
