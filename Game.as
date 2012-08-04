@@ -76,17 +76,14 @@ public class Game extends World {
 		var shinies:Array = [];
 		getClass(Shiny, shinies);
 		var shinyCount:int = 0;
-		var shinyTimedOut:Boolean = false;
 
 		for each (var s:Shiny in shinies) {
 			s.wasntHit();
 			if (s.alive)
 				shinyCount++;
-			if (s.diedPeacefully)
-				shinyTimedOut = true;
 		}
 
-		if (shinyCount == 0 && !shinyTimedOut)
+		if (shinyCount == 0)
 			targetShinyCount++;
 
 		for (var i:int = 0; i < targetShinyCount - shinyCount; i++)
