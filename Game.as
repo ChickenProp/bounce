@@ -17,7 +17,9 @@ public class Game extends World {
 	public var targetShinyCount : int = 1;
 	public var timeTween : NumTween;
 	public var timer : Entity;
+	public var instructions : Entity;
 	public var cameraVel : vec = new vec(0, 0);
+	public var gameStarted : Boolean = false;
 	public var gameOver : Boolean = false;
 
 	public function Game () {
@@ -30,7 +32,16 @@ public class Game extends World {
 		timer = new Entity;
 		timer.x = 450;
 		timer.y = 40;
+		timer.graphic = Image.createRect(20, 400, 0xFF0000);
 		add(timer);
+
+		instructions = new Entity;
+		var txt:String = "click and drag to collect baubles";
+		instructions.graphic = new Text(txt, 0, 0, { align: "center" });
+		(instructions.graphic as Image).centerOO();
+		instructions.x = 240;
+		instructions.y = 460;
+		add(instructions);
 
 		add(new Score);
 		
@@ -42,9 +53,6 @@ public class Game extends World {
 		add(new Shiny(100, 100));
 
 		timeTween = new NumTween();
-		timeTween.tween(400, 0, 60*60);
-
-		music.play(1);
 	}
 	
 	override public function update () : void {
@@ -63,13 +71,25 @@ public class Game extends World {
 		timeTween.update();
 		if (timeTween.value == 0)
 			gameOver = true;
-		timer.graphic = timeTween.value
-			? Image.createRect(20, timeTween.value||1, 0xFF0000)
-			: null;
+
+		if (gameStarted)
+			(timer.graphic as Image).scaleY = timeTween.value/400;
 	}
 
 	public function playerFlung () : void {
+		if (!gameStarted)
+			start();
+
 		shadows.hide();
+	}
+
+	public function start () : void {
+		music.play(1);
+		music.volume = 0;
+		FP.tween(music, { volume: 1 }, 12);
+		timeTween.tween(400, 0, 60*60);
+		remove(instructions);
+		gameStarted = true;
 	}
 
 	public function updateShinies () : void {
