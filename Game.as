@@ -106,8 +106,23 @@ public class Game extends World {
 		if (shinyCount == 0)
 			targetShinyCount++;
 
-		for (var i:int = 0; i < targetShinyCount - shinyCount; i++)
-			add(new Shiny(FP.rand(394)+43, FP.rand(394)+43));
+		for (var i:int = 0; i < targetShinyCount - shinyCount; i++) {
+			var x:int, y:int;
+			var distToShiny:Number, distToPlayer:Number;
+			do {
+				x = FP.rand(394) + 43;
+				y = FP.rand(394) + 43;
+			} while (isNearSomething(x, y));
+			add(new Shiny(x, y));
+		}
+	}
+
+	public function isNearSomething (x:Number, y:Number) : Boolean{
+		var near:Entity = nearestToPoint("shiny",x,y);
+		if (near && near.distanceToPoint(x, y) < 20)
+			return true;
+
+		return player.distanceToPoint(x, y) < 100;
 	}
 
 	public function bounceWalls () : void {
