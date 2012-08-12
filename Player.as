@@ -128,7 +128,7 @@ public class Player extends Movable {
 	}
 
 	public function dragLen () : Number {
-		var len:Number = Math.log(dragStart.sub(mousePos).length + 1);
+		var len:Number = 6 - Math.exp(- dragStart.sub(mousePos).length / 100);
 		return len;
 	}
 
