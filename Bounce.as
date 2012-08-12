@@ -15,5 +15,20 @@ public class Bounce extends Engine {
         override public function init():void {
                 FP.world = new Game;
         }
+
+	override public function update () : void {
+		super.update();
+
+		if (Input.pressed(Key.P)) {
+			var game:Game = FP.world as Game;
+			game.active = !game.active;
+			if (game.gameStarted) {
+				if (game.active)
+					game.music.resume();
+				else
+					game.music.stop();
+			}
+		}
+	}
 }
 }
